@@ -11,22 +11,26 @@
 class Solution {
 public:
     ListNode* deleteNodes(ListNode* head, int m, int n) {
-        if(!head || !head->next) return head;
-    ListNode* temp = head;
-    while(temp && temp->next) {
-        int k = m-1;
-        while(k-- && temp) {
-            temp = temp->next;
+        ListNode* currentNode = head;
+        ListNode* lastMNode = head;
+        while (currentNode != nullptr) {
+            // initialize mCount to m and nCount to n
+            int mCount = m, nCount = n;
+            // traverse m nodes
+            while (currentNode != nullptr && mCount != 0) {
+                lastMNode = currentNode;
+                currentNode = currentNode->next;
+                mCount--;
+            }
+            // traverse n nodes
+            while (currentNode != nullptr && nCount != 0) {
+                currentNode = currentNode->next;
+                nCount--;
+            }
+            // delete n nodes
+            lastMNode->next = currentNode;
         }
-        ListNode* prev = temp;
-        int l = n+1;
-        while(l-- && temp) {
-           temp = temp->next;
-        }
-        if(prev) prev->next = temp;
-    }
-        
-    return head;
+        return head; 
     }
     
 };
